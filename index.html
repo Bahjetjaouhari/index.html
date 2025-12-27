@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gender Reveal - Lara & Bahjet</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; overflow-x: hidden; background: #222; }
+
+        /* FONDO ANIMADO */
+        .animated-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
+            z-index: -10;
+        }
+
+        /* EMOJIS DE FONDO (Más sutiles y lentos) */
+        .floater {
+            position: fixed; font-size: 3rem; opacity: 0.5; z-index: -5;
+            animation: floatUp 15s infinite linear;
+            text-shadow: 0 0 10px rgba(255,255,255,0.4);
+        }
+        @keyframes floatUp { 
+            0% { transform: translateY(110vh) rotate(0deg); } 
+            100% { transform: translateY(-10vh) rotate(360deg); } 
+        }
+
+        /* PANTALLA DE INICIO (Minimalista) */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.98);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.6s;
+        }
+        .intro-title {
+            font-family: 'Great Vibes', cursive; font-size: 4rem; margin: 0;
+            background: linear-gradient(to right, #00c6ff, #ff758c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .pulse-btn {
+            background: linear-gradient(45deg, #00c6ff, #ff758c);
+            color: white; padding: 18px 60px; border-radius: 50px;
+            font-size: 1.2rem; font-weight: bold; border: none; letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite; cursor: pointer; margin-top: 30px;
+            text-transform: uppercase;
+        }
+
+        /* TARJETA ULTRA TRANSPARENTE */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05); /* ¡Casi invisible! */
+            backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 40px;
+            width: 90%; max-width: 400px;
+            margin: 30px auto; padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        /* NUBES DECORATIVAS EN LA TARJETA */
+        .cloud-decor { position: absolute; font-size: 3rem; opacity: 0.9; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
+        .c-tl { top: -20px; left: -10px; }
+        .c-tr { top: -20px; right: -10px; transform: scaleX(-1); }
+
+        /* NOMBRES VERTICALES Y ANIMADOS */
+        .names-container {
+            display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px;
+        }
+        .hero-name { 
+            font-family: 'Great Vibes', cursive; 
+            font-size: 4.5rem; line-height: 1; margin: 0;
+            animation: colorChange 4s infinite alternate;
+            filter: drop-shadow(0 2px 2px rgba(255,255,255,0.8));
+        }
+        .ampersand { font-size: 2rem; color: #fff; opacity: 0.8; margin: -10px 0; }
+
+        @keyframes colorChange {
+            0% { color: #00c6ff; text-shadow: 0 0 10px rgba(0, 198, 255, 0.5); }
+            100% { color: #ff758c; text-shadow: 0 0 10px rgba(255, 117, 140, 0.5); }
+        }
+
+        /* DATOS CON EMOJIS */
+        .info-row {
+            margin: 15px 0; color: #444; font-size: 1.2rem; font-weight: 700;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .info-emoji { font-size: 1.5rem; }
+
+        /* REGALOS Y VESTIMENTA (Cajas Blancas Sutiles) */
+        .white-box {
+            background: rgba(255,255,255,0.7); padding: 15px; border-radius: 20px;
+            margin: 20px 0; color: #555; backdrop-filter: blur(5px);
+        }
+
+        /* BOTONES DE VOTACIÓN */
+        .vote-section { margin-top: 40px; }
+        .vote-container { display: flex; gap: 15px; justify-content: center; margin: 15px 0; }
+        .vote-btn {
+            flex: 1; padding: 15px; border-radius: 20px; border: none;
+            color: white; font-weight: bold; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center;
+        }
+        .boy { background: linear-gradient(to bottom right, #4facfe, #00f2fe); }
+        .girl { background: linear-gradient(to bottom right, #f093fb, #f5576c); }
+
+        /* DINERO */
+        .money-btn {
+            background: linear-gradient(to right, #f6d365, #fda085);
+            border: none; padding: 15px; width: 100%; border-radius: 50px;
+            color: white; font-weight: bold; cursor: pointer; font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(253, 160, 133, 0.4);
+        }
+        .bank-info { display: none; margin-top: 15px; background: #fff; padding: 15px; border-radius: 15px; font-size: 0.9rem; text-align: left; }
+
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
+    </style>
+</head>
+<body>
+
+    <div class="animated-bg"></div>
+    <div class="floater" style="left: 5%; animation-duration: 18s;">☁️</div>
+    <div class="floater" style="right: 10%; animation-duration: 22s; animation-delay: 2s;">🧸</div>
+    <div class="floater" style="left: 40%; animation-duration: 15s; animation-delay: 5s;">✨</div>
+
+    <div id="intro-overlay">
+        <h1 class="intro-title">Lara & Bahjet</h1>
+        <p style="color: #888; letter-spacing: 2px; margin-top: 10px; font-size: 0.9rem;">GENDER REVEAL</p>
+        
+        <button class="pulse-btn" onclick="startExperience()">
+            VER SORPRESA
+        </button>
+    </div>
+
+    <div class="glass-card">
+        <div class="cloud-decor c-tl">☁️</div>
+        <div class="cloud-decor c-tr">☁️</div>
+
+        <small style="letter-spacing: 3px; font-weight: bold; color: #555;">07 Enero 2026</small>
+        
+        <div class="names-container">
+            <h1 class="hero-name" style="animation-delay: 0s;">Lara</h1>
+            <span class="ampersand">&</span>
+            <h1 class="hero-name" style="animation-delay: 2s;">Bahjet</h1>
+        </div>
+        
+        <div class="info-row">
+            <span class="info-emoji">🕑</span> 2:00 PM
+        </div>
+        <div class="info-row">
+            <span class="info-emoji">📍</span> Parque La Llovizna
+        </div>
+
+        <div class="white-box">
+            👕 <b>Código de Vestimenta:</b><br>Todos de <b>BLANCO 🤍</b>
+        </div>
+
+        <div class="white-box" style="background: rgba(255,255,255,0.8);">
+            <h3 style="margin:0 0 15px; color: #d4a373;">Mesa de Regalos</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 15px;">Sugerencias: Pañales, Ropita, Aseo.</p>
+            
+            <button class="money-btn" onclick="toggleBank()">
+                <i class="fas fa-gift" style="margin-right:8px"></i> Prefiero colaborar con su futuro
+            </button>
+
+            <div id="bank-info" class="bank-info">
+                <div style="border-left: 3px solid #00c6ff; padding-left: 10px; margin-bottom: 10px;">
+                    <b>🏦 Banco de Venezuela</b><br>
+                    C.I: 25.782.887<br>Tlf: 04121882008
+                </div>
+                <div style="border-left: 3px solid #f3ba2f; padding-left: 10px;">
+                    <b>🔶 Binance Pay</b><br>
+                    Bahjet_c@hotmail.com
+                </div>
+            </div>
+        </div>
+
+        <div class="vote-section">
+            <h3 style="margin: 0; color: #444; text-shadow: 0 1px 0 rgba(255,255,255,0.5);">¿Qué será?</h3>
+            <p style="font-size: 0.8rem; color: #555; margin-top:5px;">(Vota para confirmar asistencia)</p>
+            
+            <div class="vote-container">
+                <div onclick="vote('boy')" class="vote-btn boy">
+                    <i class="fas fa-mars" style="font-size: 2rem; margin-bottom:5px;"></i>
+                    NIÑO
+                </div>
+                <div onclick="vote('girl')" class="vote-btn girl">
+                    <i class="fas fa-venus" style="font-size: 2rem; margin-bottom:5px;"></i>
+                    NIÑA
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="music-player" loop preload="auto">
+        <source src="https://www.chosic.com/wp-content/uploads/2020/07/Lullaby-Good-Night-My-Angel.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // GENERADOR DE EMOJIS (LLUVIA SUAVE)
+        const emojis = ['☁️', '🧸', '✨', '🍼'];
+        function createEmoji() {
+            const el = document.createElement('div');
+            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            el.classList.add('floater');
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 5 + 10) + 's';
+            el.style.fontSize = (Math.random() * 2 + 2) + 'rem';
+            document.body.appendChild(el);
+            setTimeout(() => { el.remove(); }, 15000);
+        }
+        setInterval(createEmoji, 800);
+
+        // INICIO Y MÚSICA
+        function startExperience() {
+            const intro = document.getElementById('intro-overlay');
+            const audio = document.getElementById('music-player');
+
+            // 1. Iniciar Audio Inmediatamente al toque
+            audio.volume = 1.0;
+            audio.play().then(() => {
+                console.log("Audio reproduciendo");
+            }).catch(e => {
+                console.log("Audio bloqueado, reintentando...");
+            });
+
+            // 2. Desaparecer Intro
+            intro.style.opacity = '0';
+            setTimeout(() => { intro.style.display = 'none'; }, 600);
+        }
+
+        // DINERO Y CONFETI
+        function toggleBank() {
+            var x = document.getElementById('bank-info');
+            if (x.style.display !== "block") {
+                x.style.display = "block";
+                confetti({
+                    shapes: ['circle'], colors: ['#ffd700', '#f6d365'], 
+                    particleCount: 60, spread: 70, origin: { y: 0.7 }
+                });
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        // VOTACIÓN WHATSAPP
+        function vote(team) {
+            var color = (team === 'boy') ? '#00f2fe' : '#f5576c';
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.8 }, colors: [color, '#ffffff'] });
+
+            var text = (team === 'boy') 
+                ? "¡Hola! Lara y Bahjet, apuesto por NIÑO 💙. Confirmo mi asistencia." 
+                : "¡Hola! Lara y Bahjet, apuesto por NIÑA 🩷. Confirmo mi asistencia.";
+
+            setTimeout(function() {
+                window.location.href = "https://wa.me/584121882008?text=" + encodeURIComponent(text);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
