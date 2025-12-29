@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gender Reveal - Lara & Bahjet</title>
+    <title>Gender Reveal - Bahjet & Lara</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,33 +14,20 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; overflow-x: hidden; background: #333; }
 
-        /* 1. PANTALLA PRINCIPAL (INTRO) */
+        /* 1. INTRO */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 9999; transition: opacity 0.6s; text-align: center;
             animation: bgChange 4s infinite alternate;
         }
+        @keyframes bgChange { 0% { background: #a1c4fd; } 100% { background: #fbc2eb; } }
 
-        @keyframes bgChange {
-            0% { background: #a1c4fd; } 100% { background: #fbc2eb; }
-        }
+        .intro-title { font-family: 'Great Vibes', cursive; font-size: 3.5rem; margin: 0; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .intro-text { color: white; font-size: 1.2rem; margin-bottom: 30px; font-weight: bold; }
+        .pulse-btn { background: white; color: #555; padding: 18px 50px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: pulse 1.5s infinite; cursor: pointer; margin-top: 20px; }
 
-        .intro-title {
-            font-family: 'Great Vibes', cursive; font-size: 3.5rem; margin: 0; color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        .intro-text {
-            color: white; font-size: 1.2rem; margin-bottom: 30px; font-weight: bold;
-        }
-        .pulse-btn {
-            background: white; color: #555; padding: 18px 50px; border-radius: 50px;
-            font-size: 1.2rem; font-weight: bold; border: none;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            animation: pulse 1.5s infinite; cursor: pointer; margin-top: 20px;
-        }
-
-        /* 2. FONDO PRINCIPAL */
+        /* 2. FONDO */
         .main-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
@@ -52,42 +39,28 @@
             position: fixed; font-size: 2.5rem; opacity: 0.6; z-index: -5;
             animation: floatUp 10s infinite linear;
         }
-        @keyframes floatUp { 
-            0% { transform: translateY(110vh); } 
-            100% { transform: translateY(-10vh); } 
-        }
+        @keyframes floatUp { 0% { transform: translateY(110vh); } 100% { transform: translateY(-10vh); } }
 
-        /* TARJETA DE CRISTAL */
+        /* TARJETA */
         .glass-card {
-            background: rgba(255, 255, 255, 0.5); 
+            background: rgba(255, 255, 255, 0.6); 
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(255,255,255,0.8);
+            border: 2px solid rgba(255,255,255,0.9);
             border-radius: 40px;
             width: 90%; max-width: 420px;
             margin: 40px auto; padding: 30px 20px;
             text-align: center;
-            position: relative;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
-        /* NUBES */
-        .corner-cloud {
-            position: absolute; font-size: 3.5rem; opacity: 0.9;
-            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));
-        }
-        .cloud-left { top: -25px; left: -15px; }
-        .cloud-right { top: -25px; right: -15px; }
-
         /* NOMBRES */
         h1 { 
-            font-family: 'Great Vibes', cursive; 
-            font-size: 3.2rem; margin: 20px 0; line-height: 1;
-            white-space: nowrap; 
-            animation: nameColorCycle 3s infinite alternate;
+            font-family: 'Great Vibes', cursive; font-size: 3.2rem; margin: 20px 0; line-height: 1;
+            white-space: nowrap; animation: nameColorCycle 3s infinite alternate;
         }
         @keyframes nameColorCycle {
-            0% { color: #4facfe; text-shadow: 0 0 15px rgba(79, 172, 254, 0.4); }
-            100% { color: #ff9a9e; text-shadow: 0 0 15px rgba(255, 154, 158, 0.4); }
+            0% { color: #89CFF0; text-shadow: 0 0 10px rgba(137, 207, 240, 0.4); }
+            100% { color: #FFB7CE; text-shadow: 0 0 10px rgba(255, 183, 206, 0.4); }
         }
 
         /* INFO */
@@ -95,20 +68,39 @@
             background: white; border-radius: 20px; padding: 20px; margin: 20px 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 12px;
         }
-        .info-item {
-            display: flex; align-items: center; gap: 10px; color: #555; font-weight: 700; font-size: 1rem; text-align: left;
-        }
+        .info-item { display: flex; align-items: center; gap: 10px; color: #555; font-weight: 700; font-size: 0.95rem; text-align: left; }
         .info-icon { font-size: 1.5rem; width: 30px; text-align: center; }
 
+        /* --- VESTIMENTA --- */
+        .dress-code-box {
+            background: white; padding: 20px; border-radius: 25px;
+            margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .dress-title { font-weight: bold; color: #444; margin-bottom: 15px; font-size: 1.1rem; }
+        
+        .teams-wrapper { display: flex; gap: 15px; }
+        
+        .team-card {
+            flex: 1; padding: 15px 10px; border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: transform 0.2s;
+        }
+        .card-blue { background: #eaf6ff; border: 2px solid #cce4ff; }
+        .card-pink { background: #ffeaf2; border: 2px solid #ffcce0; }
+        
+        .clothes-icon { font-size: 2.2rem; margin-bottom: 8px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1)); }
+        
+        /* Colores exactos */
+        .color-blue { color: #89CFF0; } 
+        .color-pink { color: #FFB7CE; } 
+        
+        .team-label { font-weight: bold; font-size: 0.9rem; color: #555; }
+        .color-label { font-size: 0.75rem; opacity: 0.7; }
+
         /* REGALOS */
-        .gift-section {
-            background: rgba(255,255,255,0.8); border-radius: 25px; padding: 20px; margin-top: 25px;
-        }
+        .gift-section { background: rgba(255,255,255,0.8); border-radius: 25px; padding: 20px; margin-top: 25px; }
         .gift-grid { display: flex; justify-content: space-around; margin: 15px 0; }
-        .g-item { 
-            display: flex; flex-direction: column; align-items: center; font-size: 0.8rem; color: #666;
-            cursor: pointer; transition: transform 0.1s; padding: 5px; border-radius: 10px;
-        }
+        .g-item { display: flex; flex-direction: column; align-items: center; font-size: 0.8rem; color: #666; cursor: pointer; transition: transform 0.1s; }
         .g-item:active { transform: scale(0.9); } 
         .g-emoji { font-size: 2.5rem; margin-bottom: 5px; }
 
@@ -124,7 +116,6 @@
         .girl { background: linear-gradient(to bottom right, #ff9a9e, #fecfef); }
 
         @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
-        
         .youtube-hidden { position: absolute; top: -1000px; left: -1000px; opacity: 0; pointer-events: none; }
     </style>
 </head>
@@ -142,105 +133,32 @@
     </div>
 
     <div class="glass-card">
-        <div class="corner-cloud cloud-left">☁️</div>
-        <div class="corner-cloud cloud-right">☁️</div>
-
         <small style="letter-spacing: 2px; font-weight: bold; color: #777;">GENDER REVEAL</small>
-        <h1>Lara & Bahjet</h1>
+        <h1>Bahjet & Lara</h1>
 
         <div class="info-container">
             <div class="info-item"><div class="info-icon">📅</div> 07 de Enero, 2026</div>
-            <div class="info-item"><div class="info-icon">🕑</div> 2:00 PM</div>
-            <div class="info-item"><div class="info-icon">📍</div> Parque La Llovizna</div>
+            <div class="info-item"><div class="info-icon">🕑</div> 9:00 AM</div>
+            <div class="info-item"><div class="info-icon">📍</div> Parque La Llovizna, Puerto Ordaz</div>
         </div>
 
-        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 15px; color: #555; margin-bottom: 20px;">
-            👕 <b>Código de Vestimenta:</b><br>Todos de <b>BLANCO 🤍</b>
-        </div>
+        <div class="dress-code-box">
+            <div class="dress-title"><i class="fas fa-hanger" style="color: #666; margin-right:5px;"></i> Código de Vestimenta</div>
+            
+            <div class="teams-wrapper">
+                <div class="team-card card-blue">
+                    <i class="fas fa-tshirt clothes-icon color-blue"></i>
+                    <span class="team-label">TEAM NIÑO</span>
+                    <span class="color-label">Azul Bebé</span>
+                </div>
+                
+                <div class="team-card card-pink">
+                    <i class="fas fa-vest-patches clothes-icon color-pink"></i>
+                    <span class="team-label">TEAM NIÑA</span>
+                    <span class="color-label">Rosa Bebé</span>
+                </div>
+            </div>
+            </div>
 
         <div class="gift-section">
-            <h3 style="margin:0 0 15px; color: #d4a373;">Mesa de Regalos</h3>
-            <p style="font-size:0.8rem; margin-bottom:15px;">Sugerencias (Toca los iconos):</p>
-            <div class="gift-grid">
-                <div class="g-item" onclick="throwGiftEmojis('🧸')"><div class="g-emoji">🧸</div><span>Pañales</span></div>
-                <div class="g-item" onclick="throwGiftEmojis('👕')"><div class="g-emoji">👕</div><span>Ropita</span></div>
-                <div class="g-item" onclick="throwGiftEmojis('🧼')"><div class="g-emoji">🧼</div><span>Aseo</span></div>
-            </div>
-        </div>
-
-        <div class="vote-section">
-            <h3 style="margin: 0; color: #555;">¿Qué será?</h3>
-            <p style="font-size: 0.85rem; color: #444; margin-top:5px; font-weight: bold;">👇 Selecciona tu Team para confirmar tu asistencia en WhatsApp 👇</p>
-            <div class="vote-container">
-                <div onclick="vote('boy')" class="vote-btn boy"><i class="fas fa-mars" style="font-size: 1.8rem;"></i>NIÑO</div>
-                <div onclick="vote('girl')" class="vote-btn girl"><i class="fas fa-venus" style="font-size: 1.8rem;"></i>NIÑA</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="player" class="youtube-hidden"></div>
-
-    <script>
-        // 1. YOUTUBE API
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '1', width: '1',
-                // AQUI ESTA TU CANCION NUEVA:
-                videoId: 'Uwc_sseWwjw', 
-                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 'Uwc_sseWwjw' }
-            });
-        }
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        // 2. FUNCIONES
-        function startEmojis() {
-            const container = document.getElementById('emoji-rain-container');
-            const emojis = ['🧸', '🍼', '✨', '🎈'];
-            setInterval(() => {
-                const el = document.createElement('div');
-                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                el.classList.add('floater');
-                el.style.left = Math.random() * 100 + 'vw';
-                el.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                container.appendChild(el);
-                setTimeout(() => el.remove(), 10000);
-            }, 600);
-        }
-
-        function startExperience() {
-            const intro = document.getElementById('intro-overlay');
-            // INTENTAR REPRODUCIR
-            if (player && typeof player.playVideo === 'function') {
-                player.setVolume(100);
-                player.playVideo();
-            }
-            intro.style.opacity = '0';
-            setTimeout(() => { intro.style.display = 'none'; }, 600);
-            startEmojis();
-        }
-
-        function throwGiftEmojis(emojiIcon) {
-            confetti({
-                shapes: ['text'], scalar: 3, 
-                shapeOptions: { text: { value: [emojiIcon] } }, 
-                particleCount: 60, spread: 80, origin: { y: 0.7 }, gravity: 0.8
-            });
-        }
-
-        function vote(team) {
-            var color = (team === 'boy') ? '#00f2fe' : '#ff9a9e';
-            confetti({ particleCount: 150, spread: 80, origin: { y: 0.8 }, colors: [color, '#ffffff'] });
-            var text = (team === 'boy') 
-                ? "¡Hola! Lara y Bahjet, estoy feliz por ustedes. Mi voto es TEAM NIÑO 💙 y confirmo mi asistencia al Gender Reveal." 
-                : "¡Hola! Lara y Bahjet, estoy feliz por ustedes. Mi voto es TEAM NIÑA 🩷 y confirmo mi asistencia al Gender Reveal.";
-            setTimeout(function() {
-                window.location.href = "https://wa.me/584121882008?text=" + encodeURIComponent(text);
-            }, 1000);
-        }
-    </script>
-</body>
-</html>
+            <h3 style="margin:0 0
